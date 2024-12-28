@@ -6,20 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 2d8d2250efb840e0ecb9012c5e879a82ef68f65dd86bdff574200fdfc978ff1c
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.6
+    - python {{ python_min }}
     - pip
+    - setuptools
   run:
-    - python >=3.6
+    - python >={{ python_min }}
     - jsonschema >=1.0.0
     - pyyaml >=3.13
     - xlsxwriter >=1.2.8
@@ -29,6 +30,7 @@ test:
     - tableschema_to_template
   requires:
     - pip
+    - python {{ python_min }}
   commands:
     - pip check
     - ts2xl.py --help
